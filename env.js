@@ -12,10 +12,11 @@ const config = {
 			secret: process.env.FACEBOOK_APP_SECRET
 		}
 	},
-	users: {}
+	users: {},
+	ownHost: process.env.OWN_HOST
 };
-const readOnlyUsers = process.env.READ_ONLY_USERS.split(',');
-const adminUsers = process.env.ADMIN_USERS.split(',');
+const readOnlyUsers = process.env.READ_ONLY_USERS ? process.env.READ_ONLY_USERS.split(',') : [];
+const adminUsers = process.env.ADMIN_USERS ? process.env.ADMIN_USERS.split(',') : [];
 
 config.users.readOnly = readOnlyUsers || [];
 config.users.admin = adminUsers || [];

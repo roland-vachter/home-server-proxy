@@ -23,7 +23,7 @@ passport.deserializeUser(function(user, done) {
 passport.use(new FacebookStrategy({
         clientID: env.facebook.app.id,
         clientSecret: env.facebook.app.secret,
-        callbackURL: "http://localhost:8090/login/facebook/callback"
+        callbackURL: env.ownHost + "/login/facebook/callback"
     },
     function(accessToken, refreshToken, profile, done) {
     	if (profile && profile.emails && profile.emails.length) {
