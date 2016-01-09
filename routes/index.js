@@ -26,6 +26,7 @@ passport.use(new FacebookStrategy({
         callbackURL: env.ownHost + "/login/facebook/callback"
     },
     function(accessToken, refreshToken, profile, done) {
+        console.log('accessToken', accessToken);
     	if (profile && profile.emails && profile.emails.length) {
             let typeOfAccess = null;
 
