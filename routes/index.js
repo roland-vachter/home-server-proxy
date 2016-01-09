@@ -30,14 +30,14 @@ passport.use(new FacebookStrategy({
             let typeOfAccess = null;
 
             for (let i = 0; i < profile.emails.length; i++) {
-                let email = profile.emails[i];
+                let email = profile.emails[i].value;
 
-                if (env.users.admin.includes(email)) {
+                if (env.users.admin.indexOf(email) !== -1) {
                     typeOfAccess = 'admin';
                     break;
                 }
 
-                if (env.users.readOnly.includes(email)) {
+                if (env.users.readOnly.indexOf(email) !== -1) {
                     typeOfAccess = 'readOnly';
                 }
             }
