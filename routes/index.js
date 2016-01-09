@@ -28,13 +28,11 @@ passport.use(new FacebookStrategy({
         callbackURL: env.ownHost + "/login/facebook/callback"
     },
     function(accessToken, refreshToken, profile, done) {
-        console.log('accessToken', accessToken);
     	if (profile && profile.emails && profile.emails.length) {
             let typeOfAccess = null;
 
             for (let i = 0; i < profile.emails.length; i++) {
                 let email = profile.emails[i].value;
-                console.log('Email', email);
 
                 if (env.users.admin.indexOf(email) !== -1) {
                     typeOfAccess = 'admin';
@@ -46,15 +44,11 @@ passport.use(new FacebookStrategy({
                 }
             }
 
-            console.log('typeOfAccess', typeOfAccess);
-
     		if (typeOfAccess !== null) {
                 profile.accessLevel = typeOfAccess;
     			done(null, profile);
     			return;
     		}
-    	} else {
-            console.log("No profile");
         }
 
         done(new Error("Forbidden."));
