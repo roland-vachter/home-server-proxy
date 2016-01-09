@@ -31,6 +31,7 @@ passport.use(new FacebookStrategy({
 
             for (let i = 0; i < profile.emails.length; i++) {
                 let email = profile.emails[i].value;
+                console.log(email);
 
                 if (env.users.admin.indexOf(email) !== -1) {
                     typeOfAccess = 'admin';
@@ -41,6 +42,8 @@ passport.use(new FacebookStrategy({
                     typeOfAccess = 'readOnly';
                 }
             }
+
+            console.log(typeOfAccess);
 
     		if (typeOfAccess !== null) {
                 profile.accessLevel = typeOfAccess;
