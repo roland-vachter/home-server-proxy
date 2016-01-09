@@ -12,6 +12,8 @@ var remoteAddress = null;
 
 
 passport.serializeUser(function(user, done) {
+    console.log('user', user);
+
 	done(null, user);
 });
 
