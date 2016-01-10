@@ -116,7 +116,7 @@ router.get('/*', isLoggedIn, function(req, res, next) {
 
                 res.send("Remote server unreachable.");
             });
-        } else {
+        } catch (err) {
             res.send("Remote server unreachable.");
         }
 	} else {
