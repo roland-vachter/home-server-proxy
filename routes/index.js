@@ -59,8 +59,12 @@ router.post('/register', function(req, res, next) {
     if (req.get('API_KEY') === env.apiKeys.own && req.body.hasOwnProperty('address')) {
         remoteAddress = req.body.address;
 
+        console.log('remoteAddress', remoteAddress);
+
         res.sendStatus(200);
         return;
+    } else {
+        console.log('remoteAddress set failed. apiKey not correct.');
     }
 
     res.sendStatus(403);
