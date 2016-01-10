@@ -65,5 +65,9 @@ app.use(function(err, req, res, next) {
     });
 });
 
+process.on('uncaughtException', (err) => {
+    console.log('Uncaught exception: ', err);
+});
+
 
 module.exports = app;
