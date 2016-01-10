@@ -97,6 +97,9 @@ proxy.on('proxyReq', function(proxyReq, req, res, options) {
         }
 	}
 });
+proxy.on('error', function (err, req, res) {
+    res.end('Remote server unreachable.');
+});
 
 
 router.get('/remoteaddress', isLoggedIn, function (req, res, next) {
