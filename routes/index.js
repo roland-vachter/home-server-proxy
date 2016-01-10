@@ -97,11 +97,24 @@ proxy.on('proxyReq', function(proxyReq, req, res, options) {
         }
 	}
 });
+
+
+router.get('/remoteaddress', isLoggedIn, function (req, res, next) {
+    if (req.user) {
+        res.send(remoteAddress);
+    } else {
+        res.sendStatus(403);
+    }
+});
 router.get('/*', isLoggedIn, function(req, res, next) {
 	if (req.user) {
-		proxy.web(req, res, {
-			target: remoteAddress
-		});
+        try {
+    		proxy.web(req, res, {
+    			target: remoteAddress
+    		});
+        } else {
+            res.send("Remote server unreachable.");
+        }
 	} else {
 		res.sendStatus(403);
 	}
