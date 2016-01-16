@@ -5,8 +5,7 @@ angular
 		'oc.lazyLoad',
 		'ui.router',
 		'ui.bootstrap',
-		'angular-loading-bar',
-		'angular.morris-chart'
+		'angular-loading-bar'
 	])
 	.config(['$stateProvider','$urlRouterProvider','$ocLazyLoadProvider',function ($stateProvider,$urlRouterProvider,$ocLazyLoadProvider) {
 
