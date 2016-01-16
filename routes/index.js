@@ -4,16 +4,12 @@ var express = require('express');
 var router = express.Router();
 var passport = require('passport');
 var FacebookStrategy = require('passport-facebook').Strategy;
-var httpProxy = require('http-proxy');
 var env = require('../env');
-
-
-var remoteAddress = null;
+const crypto = require('../app/utils/crypto');
+const proxy = require('../app/proxy');
 
 
 passport.serializeUser(function(user, done) {
-    console.log('user', user);
-
 	done(null, user);
 });
 
@@ -57,9 +53,7 @@ passport.use(new FacebookStrategy({
 
 router.post('/register', function(req, res, next) {
     if (req.get('API_KEY') === env.apiKeys.own && req.body.hasOwnProperty('address')) {
-        remoteAddress = req.body.address;
-
-        console.log('remoteAddress', remoteAddress);
+        proxy.register(req.body.address, crypto.decrypt(req.body.readOnlyApiKey), crypto.decrypt(req.body.adminApiKey));
 
         res.sendStatus(200);
         return;
@@ -78,7 +72,7 @@ router.get('/forbidden', function (req, res, next) {
 router.get('/login/facebook', passport.authenticate('facebook', {
 	scope : 'email'
 }));
- 
+
 // handle the callback after facebook has authenticated the user
 router.get('/login/facebook/callback', passport.authenticate('facebook', {
 	successRedirect : '/',
@@ -86,39 +80,31 @@ router.get('/login/facebook/callback', passport.authenticate('facebook', {
 }));
 
 
-
-var proxy = httpProxy.createProxyServer({});
-proxy.on('proxyReq', function(proxyReq, req, res, options) {
+router.get('/', isLoggedIn, function (req, res, next) {
 	if (req.user) {
-        if (req.user.accessLevel === 'readOnly') {
-            proxyReq.setHeader('API_KEY', env.apiKeys.server.readOnly);
-        } else if (req.user.accessLevel === 'admin') {
-            proxyReq.setHeader('API_KEY', env.apiKeys.server.admin);
-        }
+		res.render('index');
+	} else {
+		res.sendStatus(403);
 	}
 });
-
-
-router.get('/remoteaddress', isLoggedIn, function (req, res, next) {
-    if (req.user) {
-        res.send(remoteAddress);
-    } else {
-        res.sendStatus(403);
-    }
-});
-router.get('/*', isLoggedIn, function(req, res, next) {
+router.all('/api/*', isLoggedIn, function(req, res, next) {
 	if (req.user) {
-        try {
-    		proxy.web(req, res, {
-    			target: remoteAddress
-    		}, function (e) {
-                // error
-
-                res.send("Remote server unreachable.");
+		proxy.proxyHttp(req, res, function (e) {
+            res.json({
+            	error: "Remote server unreachable."
             });
-        } catch (err) {
-            res.send("Remote server unreachable.");
-        }
+        });
+	} else {
+		res.sendStatus(403);
+	}
+});
+router.all('/socket.io/*', isLoggedIn, function(req, res, next) {
+	if (req.user) {
+		proxy.proxyHttp(req, res, function (e) {
+            res.json({
+            	error: "Remote server unreachable."
+            });
+        });
 	} else {
 		res.sendStatus(403);
 	}

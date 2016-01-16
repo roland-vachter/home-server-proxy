@@ -1,0 +1,59 @@
+<div>
+    <div class="row">
+        <div class="col-lg-12">
+            <h1></h1>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+    <div class="row">
+        
+        <stats number="{{ambientalConditions.inside.temperature}}&deg;" secondary="{{ambientalConditions.inside.humidity}}%" comments="Inside" colour="" type="home"></stats>
+        <stats number="{{ambientalConditions.outside.temperature}}&deg;" secondary="{{ambientalConditions.outside.humidity}}%" comments="Outside" colour="" type="external-link"></stats>
+        <stats number="On" comments="Heating" colour="green" type="flash"></stats>
+        <stats number="OK" comments="Status" colour="green" type="cogs"></stats>
+
+    </div>
+
+    <div
+        line-chart
+        line-data='{{chart.data}}'
+        line-xkey='y'
+        line-ykeys='["a", "b"]'
+        line-labels='["Serie A", "Serie B"]'
+        line-colors='["#31C0BE", "#c7254e"]'
+        line-smooth="false">
+    </div>
+    
+    <!-- /.panel -->
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <i class="fa fa-clock-o fa-fw"></i> Responsive Timeline
+                </div>
+                <!-- /.panel-heading -->
+                <timeline></timeline>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+        </div>
+        <!-- /.col-lg-8 -->
+        <div class="col-lg-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <i class="fa fa-bell fa-fw"></i> Notifications Panel
+                </div>
+                <!-- /.panel-heading -->
+                <notifications></notifications> 
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+
+            <chat></chat>
+             <!-- /.panel .chat-panel -->
+        </div>
+        <!-- /.col-lg-4 -->
+    </div>
+    <!-- /.row -->
+</div>

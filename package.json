@@ -1,9 +1,10 @@
 {
-  "name": "home-server-registry",
+  "name": "heating-frontend-app",
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "postinstall": "bower install"
   },
   "dependencies": {
     "body-parser": "~1.13.2",
@@ -12,10 +13,16 @@
     "express": "~4.13.1",
     "express-session": "^1.12.1",
     "http-proxy": "^1.12.0",
-    "jade": "~1.11.0",
+    "hjs": "~0.0.6",
     "morgan": "~1.6.1",
     "passport": "^0.3.2",
     "passport-facebook": "^2.0.0",
     "serve-favicon": "~2.3.0"
+  },
+  "devDependencies": {
+    
+  },
+  "engines": {
+    "node": ">=0.10.0"
   }
 }

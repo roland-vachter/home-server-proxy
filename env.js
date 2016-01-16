@@ -1,3 +1,5 @@
+"use strict";
+
 const config = {
 	apiKeys: {
 		own: process.env.OWN_API_KEY,
@@ -13,7 +15,10 @@ const config = {
 		}
 	},
 	users: {},
-	ownHost: process.env.OWN_HOST
+	ownHost: process.env.OWN_HOST,
+	crypto: {
+		key: process.env.CRYPTO_KEY
+	}
 };
 const readOnlyUsers = process.env.READ_ONLY_USERS ? process.env.READ_ONLY_USERS.split(',') : [];
 const adminUsers = process.env.ADMIN_USERS ? process.env.ADMIN_USERS.split(',') : [];
