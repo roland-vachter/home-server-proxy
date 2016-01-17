@@ -15,15 +15,10 @@
 
     </div>
 
-    <div
-        line-chart
-        line-data='{{chart.data}}'
-        line-xkey='y'
-        line-ykeys='["a", "b"]'
-        line-labels='["Serie A", "Serie B"]'
-        line-colors='["#31C0BE", "#c7254e"]'
-        line-smooth="false">
-    </div>
+    <nvd3 options="charts.temperature.options" data="charts.temperature.data"></nvd3>
+    <nvd3 options="charts.humidity.options" data="charts.humidity.data" api="api"></nvd3>
+
+    
     
     <!-- /.panel -->
     <div class="row">
