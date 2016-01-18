@@ -5,83 +5,101 @@ angular.module('heatingFrontend')
 		$scope.charts = {
 			temperature: {
 				options: {
-				    chart: {
-				    	type: 'lineChart',
-		                height: 250,
-		                margin : {
-		                    top: 20,
-		                    right: 20,
-		                    bottom: 40,
-		                    left: 55
-		                },
-		                x: function(d){ return d.x; },
-		                y: function(d){ return d.y; },
-		                useInteractiveGuideline: true,
-		                showValues: true,
-		                xAxis: {
-		                    axisLabel: 'Date',
-		                    tickFormat: function(d) {
-		                    	return d3.time.format('%b %d, %Hh')(new Date(d));
-		                    }
-		                },
-		                yAxis: {
-		                    axisLabel: 'Temperature',
-		                    axisLabelDistance: -10
-		                }
-				    }
+					chart: {
+						type: 'lineChart',
+						height: 250,
+						margin: {
+							top: 20,
+							right: 20,
+							bottom: 40,
+							left: 55
+						},
+						x: function(d) {
+							return d.x;
+						},
+						y: function(d) {
+							return d.y;
+						},
+						useInteractiveGuideline: true,
+						showValues: true,
+						xAxis: {
+							axisLabel: 'Date',
+							tickFormat: function(d) {
+								return d3.time.format('%b %d, %Hh')(new Date(d));
+							}
+						},
+						yAxis: {
+							axisLabel: 'Temperature',
+							axisLabelDistance: -10
+						},
+						forceY: [0, 25]
+					}
 				}
 			},
 			humidity: {
 				options: {
-				    chart: {
-				    	type: 'lineChart',
-		                height: 250,
-		                margin : {
-		                    top: 20,
-		                    right: 20,
-		                    bottom: 40,
-		                    left: 55
-		                },
-		                x: function(d){ return d.x; },
-		                y: function(d){ return d.y; },
-		                useInteractiveGuideline: true,
-		                showValues: true,
-		                xAxis: {
-		                    axisLabel: 'Date',
-		                    tickFormat: function(d) {
-		                    	return d3.time.format('%b %d, %Hh')(new Date(d));
-		                    }
-		                },
-		                yAxis: {
-		                    axisLabel: 'Humidity',
-		                    axisLabelDistance: -10
-		                }
-				    }
+					chart: {
+						type: 'lineChart',
+						height: 250,
+						margin: {
+							top: 20,
+							right: 20,
+							bottom: 40,
+							left: 55
+						},
+						x: function(d) {
+							return d.x;
+						},
+						y: function(d) {
+							return d.y;
+						},
+						useInteractiveGuideline: true,
+						showValues: true,
+						xAxis: {
+							axisLabel: 'Date',
+							tickFormat: function(d) {
+								return d3.time.format('%b %d, %Hh')(new Date(d));
+							}
+						},
+						yAxis: {
+							axisLabel: 'Humidity',
+							axisLabelDistance: -10
+						},
+						forceY: [0,100]
+					}
 				}
 			}
 		};
 
 
-		ambientalConditions.getPast().then(function (data) {
+		ambientalConditions.getPast().then(function(data) {
 			var tempChartData = [{
-			    key: "Outside temperature",
-			    values: []
-		    }];
-		    var humidityChartData = [{
-			    key: "Outside humidity",
-			    values: []
-		    }];
-		    data.forEach(function (obj) {
-		    	tempChartData[0].values.push({
-		    		x: new Date(obj.date),
-		    		y: obj.outside.temperature
-		    	});
+				key: "Outside temperature",
+				values: []
+			}];
+			var humidityChartData = [{
+				key: "Outside humidity",
+				values: []
+			}];
 
-		    	humidityChartData[0].values.push({
-		    		x: new Date(obj.date),
-		    		y: obj.outside.humidity
-		    	});
-		    });
+			var minTemp;
+			data.forEach(function(obj) {
+				if (!minTemp || obj.outside.temperature < minTemp) {
+					minTemp = obj.outside.temperature
+				}
+
+				tempChartData[0].values.push({
+					x: new Date(obj.date),
+					y: obj.outside.temperature
+				});
+
+				humidityChartData[0].values.push({
+					x: new Date(obj.date),
+					y: obj.outside.humidity
+				});
+			});
+
+			$scope.charts.temperature.options.chart.forceY[0] = minTemp - 1;
 
 			$scope.charts.temperature.data = tempChartData;
 			$scope.charts.humidity.data = humidityChartData;
