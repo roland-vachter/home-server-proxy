@@ -32,7 +32,8 @@ angular.module('heatingFrontend')
 							axisLabel: 'Temperature',
 							axisLabelDistance: -10
 						},
-						forceY: [0, 25]
+						forceY: [-1, 25],
+						interpolate: 'basis'
 					}
 				}
 			},
@@ -65,7 +66,8 @@ angular.module('heatingFrontend')
 							axisLabel: 'Humidity',
 							axisLabelDistance: -10
 						},
-						forceY: [0,100]
+						forceY: [0,100],
+						interpolate: 'basis'
 					}
 				}
 			}
@@ -85,7 +87,7 @@ angular.module('heatingFrontend')
 			var minTemp;
 			data.forEach(function(obj) {
 				if (!minTemp || obj.outside.temperature < minTemp) {
-					minTemp = obj.outside.temperature
+					minTemp = obj.outside.temperature;
 				}
 
 				tempChartData[0].values.push({
