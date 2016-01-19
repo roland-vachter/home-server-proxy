@@ -85,20 +85,30 @@ angular.module('heatingFrontend')
 			}];
 
 			var minTemp;
-			data.forEach(function(obj) {
+			var lastTemp;
+			var lastHumidity;
+			data.forEach(function(obj, index) {
 				if (!minTemp || obj.outside.temperature < minTemp) {
 					minTemp = obj.outside.temperature;
 				}
 
-				tempChartData[0].values.push({
-					x: new Date(obj.date),
-					y: obj.outside.temperature
-				});
+				if (obj.outside.temperature !== lastTemp || index === data.length - 1) {
+					lastTemp = obj.outside.temperature;
 
-				humidityChartData[0].values.push({
-					x: new Date(obj.date),
-					y: obj.outside.humidity
-				});
+					tempChartData[0].values.push({
+						x: new Date(obj.date),
+						y: obj.outside.temperature
+					});
+				}
+
+				if (obj.outside.humidity !== lastHumidity || index === data.length - 1) {
+					lastHumidity = obj.outside.humidity;
+
+						humidityChartData[0].values.push({
+						x: new Date(obj.date),
+						y: obj.outside.humidity
+					});
+				}
 			});
 
 			$scope.charts.temperature.options.chart.forceY[0] = minTemp - 1;
