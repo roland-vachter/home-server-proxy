@@ -19,49 +19,49 @@ passport.deserializeUser(function(user, done) {
 
 
 passport.use(new FacebookStrategy({
-        clientID: env.facebook.app.id,
-        clientSecret: env.facebook.app.secret,
-        callbackURL: env.ownHost + "/login/facebook/callback"
-    },
-    function(accessToken, refreshToken, profile, done) {
-    	if (profile && profile.emails && profile.emails.length) {
-            let typeOfAccess = null;
+		clientID: env.facebook.app.id,
+		clientSecret: env.facebook.app.secret,
+		callbackURL: env.ownHost + "/login/facebook/callback"
+	},
+	function(accessToken, refreshToken, profile, done) {
+		if (profile && profile.emails && profile.emails.length) {
+			let typeOfAccess = null;
 
-            for (let i = 0; i < profile.emails.length; i++) {
-                let email = profile.emails[i].value;
+			for (let i = 0; i < profile.emails.length; i++) {
+				let email = profile.emails[i].value;
 
-                if (env.users.admin.indexOf(email) !== -1) {
-                    typeOfAccess = 'admin';
-                    break;
-                }
+				if (env.users.admin.indexOf(email) !== -1) {
+					typeOfAccess = 'admin';
+					break;
+				}
 
-                if (env.users.readOnly.indexOf(email) !== -1) {
-                    typeOfAccess = 'readOnly';
-                }
-            }
+				if (env.users.readOnly.indexOf(email) !== -1) {
+					typeOfAccess = 'readOnly';
+				}
+			}
 
-    		if (typeOfAccess !== null) {
-                profile.accessLevel = typeOfAccess;
-    			done(null, profile);
-    			return;
-    		}
-        }
+			if (typeOfAccess !== null) {
+				profile.accessLevel = typeOfAccess;
+				done(null, profile);
+				return;
+			}
+		}
 
-        done(new Error("Forbidden."));
-    }
+		done(new Error("Forbidden."));
+	}
 ));
 
 router.post('/register', function(req, res, next) {
-    if (req.get('API_KEY') === env.apiKeys.own && req.body.hasOwnProperty('address')) {
-        proxy.register(req.body.address, crypto.decrypt(req.body.readOnlyApiKey), crypto.decrypt(req.body.adminApiKey));
+	if (req.get('API_KEY') === env.apiKeys.own && req.body.hasOwnProperty('address')) {
+		proxy.register(req.body.address, crypto.decrypt(req.body.readOnlyApiKey), crypto.decrypt(req.body.adminApiKey));
 
-        res.sendStatus(200);
-        return;
-    } else {
-        console.log('remoteAddress set failed. apiKey not correct.');
-    }
+		res.sendStatus(200);
+		return;
+	} else {
+		console.log('remoteAddress set failed. apiKey not correct.');
+	}
 
-    res.sendStatus(403);
+	res.sendStatus(403);
 });
 
 router.get('/forbidden', function (req, res, next) {
@@ -90,10 +90,10 @@ router.get('/', isLoggedIn, function (req, res, next) {
 router.all('/api/*', isLoggedIn, function(req, res, next) {
 	if (req.user) {
 		proxy.proxyHttp(req, res, function (e) {
-            res.json({
-            	error: "Remote server unreachable."
-            });
-        });
+			res.json({
+				error: "Remote server unreachable."
+			});
+		});
 	} else {
 		res.sendStatus(403);
 	}
@@ -101,10 +101,10 @@ router.all('/api/*', isLoggedIn, function(req, res, next) {
 router.all('/socket.io/*', isLoggedIn, function(req, res, next) {
 	if (req.user) {
 		proxy.proxyHttp(req, res, function (e) {
-            res.json({
-            	error: "Remote server unreachable."
-            });
-        });
+			res.json({
+				error: "Remote server unreachable."
+			});
+		});
 	} else {
 		res.sendStatus(403);
 	}
@@ -114,10 +114,10 @@ router.all('/socket.io/*', isLoggedIn, function(req, res, next) {
 
 
 function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated())
-        return next();
+	if (req.isAuthenticated())
+		return next();
 
-    res.redirect('/login/facebook');
+	res.redirect('/login/facebook');
 }
 
 module.exports = router;

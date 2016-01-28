@@ -3,6 +3,18 @@ body {
     padding-bottom: 20px;
 }
 
+.no-shadow {
+  box-shadow: none;
+  -webkit-box-shadow: none;
+}
+
+
+.gauge {
+  width: 180px;
+  height: 155px;
+  display: inline-block;
+}
+
 /* Everything but the jumbotron gets side spacing for mobile first views */
 .header,
 .marketing,

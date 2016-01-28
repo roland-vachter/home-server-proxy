@@ -117,10 +117,63 @@ angular.module('heatingFrontend')
 			$scope.charts.humidity.data = humidityChartData;
 		});
 
+
+		var insideTempGauge;
+		var insideHumidityGauge;
+		var outsideTempGauge;
+		var outsideHumidityGauge;
+
 		ambientalConditions.getCurrent().then(function(data) {
 			$scope.ambientalConditions = data;
+
+			insideTempGauge = new JustGage({
+				id: "inside-temp-gauge",
+				value: 21,
+				min: -15,
+				max: 60,
+				shadowOpacity: 0,
+				levelColors: ['#337ab7', '#5bc0de', '#5cb85c', '#f9c802', '#d9534f'],
+				title: "Temperature",
+				symbol: '°'
+			});
+
+			insideHumidityGauge = new JustGage({
+				id: "inside-humidity-gauge",
+				value: 55,
+				min: 0,
+				max: 100,
+				shadowOpacity: 0,
+				levelColors: ['#337ab7', '#5bc0de', '#5cb85c', '#f9c802', '#d9534f'],
+				title: "Humidity",
+				symbol: '%'
+			});
+
+
+			outsideTempGauge = new JustGage({
+				id: "outside-temp-gauge",
+				value: data.outside.temperature,
+				min: -15,
+				max: 60,
+				shadowOpacity: 0,
+				levelColors: ['#337ab7', '#5bc0de', '#5cb85c', '#f9c802', '#d9534f'],
+				title: "Temperature",
+				symbol: '°'
+			});
+
+			outsideHumidityGauge = new JustGage({
+				id: "outside-humidity-gauge",
+				value: data.outside.humidity,
+				min: 0,
+				max: 100,
+				shadowOpacity: 0,
+				levelColors: ['#337ab7', '#5bc0de', '#5cb85c', '#f9c802', '#d9534f'],
+				title: "Humidity",
+				symbol: '%'
+			});
 		});
 		ambientalConditions.listen((data) => {
 			$scope.ambientalConditions = data;
+
+			outsideTempGauge.refresh(data.outside.temperature);
 		});
 	}]);
