@@ -129,8 +129,8 @@ angular.module('heatingFrontend')
 			insideTempGauge = new JustGage({
 				id: "inside-temp-gauge",
 				value: 21,
-				min: -15,
-				max: 60,
+				min: 5,
+				max: 35,
 				shadowOpacity: 0,
 				levelColors: ['#337ab7', '#5bc0de', '#5cb85c', '#f9c802', '#d9534f'],
 				title: "Temperature",
@@ -143,7 +143,7 @@ angular.module('heatingFrontend')
 				min: 0,
 				max: 100,
 				shadowOpacity: 0,
-				levelColors: ['#337ab7', '#5bc0de', '#5cb85c', '#f9c802', '#d9534f'],
+				levelColors: ['#d9534f', '#f9c802', '#5cb85c', '#f9c802', '#d9534f'],
 				title: "Humidity",
 				symbol: '%'
 			});
@@ -166,7 +166,7 @@ angular.module('heatingFrontend')
 				min: 0,
 				max: 100,
 				shadowOpacity: 0,
-				levelColors: ['#337ab7', '#5bc0de', '#5cb85c', '#f9c802', '#d9534f'],
+				levelColors: ['#d9534f', '#f9c802', '#5cb85c', '#f9c802', '#d9534f'],
 				title: "Humidity",
 				symbol: '%'
 			});
