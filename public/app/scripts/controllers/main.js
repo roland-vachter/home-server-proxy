@@ -175,5 +175,6 @@ angular.module('heatingFrontend')
 			$scope.ambientalConditions = data;
 
 			outsideTempGauge.refresh(data.outside.temperature);
+			outsideHumidityGauge.refresh(data.outside.humidity);
 		});
 	}]);
