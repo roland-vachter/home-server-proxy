@@ -129,6 +129,7 @@ angular.module('heatingFrontend')
 			insideTempGauge = new JustGage({
 				id: "inside-temp-gauge",
 				value: data.inside.temperature,
+				decimals: true,
 				min: 5,
 				max: 35,
 				shadowOpacity: 0,
