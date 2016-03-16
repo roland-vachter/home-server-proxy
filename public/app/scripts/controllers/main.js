@@ -176,5 +176,8 @@ angular.module('heatingFrontend')
 
 			outsideTempGauge.refresh(data.outside.temperature);
 			outsideHumidityGauge.refresh(data.outside.humidity);
+
+			insideTempGauge.refresh(data.inside.temperature);
+			insideHumidityGauge.refresh(data.inside.humidity);
 		});
 	}]);
