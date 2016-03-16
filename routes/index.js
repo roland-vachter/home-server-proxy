@@ -40,6 +40,9 @@ passport.use(new FacebookStrategy({
 				}
 			}
 
+			console.log('typeOfAccess', typeOfAccess);
+			console.log('profile.emails', profile.emails);
+
 			if (typeOfAccess !== null) {
 				profile.accessLevel = typeOfAccess;
 				done(null, profile);
