@@ -188,9 +188,8 @@ angular.module('heatingFrontend')
 		init();
 
 
-		var inactivityTreshold = 60; //seconds
+		var inactivityTreshold = 60 * 10; //seconds
 		window.addEventListener('focus', function () {
-			console.log('window focused');
 			if ((new Date().getTime() - lastActivity.getTime()) / 1000 > inactivityTreshold) {
 				init();
 			}
