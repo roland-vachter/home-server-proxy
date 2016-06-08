@@ -71,6 +71,10 @@ router.get('/forbidden', function (req, res, next) {
 	res.sendStatus(403);
 });
 
+router.get('/checkloginstatus', isLoggedIn, function (req, res) {
+	res.sendStatus(200);
+});
+
 
 router.get('/login/facebook', passport.authenticate('facebook', {
 	scope : 'email'
@@ -83,7 +87,7 @@ router.get('/login/facebook/callback', passport.authenticate('facebook', {
 }));
 
 
-router.get('/', isLoggedIn, function (req, res, next) {
+router.get('/', login, function (req, res, next) {
 	if (req.user) {
 		res.render('index');
 	} else {
@@ -115,12 +119,22 @@ router.all('/socket.io/*', isLoggedIn, function(req, res, next) {
 
 
 
-
-function isLoggedIn(req, res, next) {
-	if (req.isAuthenticated())
+function login (req, res, next) {
+	if (req.isAuthenticated()) {
 		return next();
+	}
 
 	res.redirect('/login/facebook');
 }
+
+
+function isLoggedIn (req, res, next) {
+	if (req.isAuthenticated()) {
+		return next();
+	}
+
+	res.sendStatus(403);
+}
+
 
 module.exports = router;

@@ -83,6 +83,7 @@ angular
 								'/app/scripts/components/shared/api.service.js',
 								'/app/scripts/components/socketio.service.js',
 								'/app/scripts/components/ambientalConditions.service.js',
+								'/app/scripts/components/loginStatus.service.js',
 							]
 						});
 					}

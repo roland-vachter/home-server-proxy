@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('heatingFrontend')
-	.controller('MainCtrl', ['$scope', '$timeout', 'socketio', 'ambientalConditions', function($scope, $timeout, socketio, ambientalConditions) {
-		console.log('belep');
+	.controller('MainCtrl', ['$scope', '$timeout', 'socketio', 'ambientalConditions', function($scope, $timeout, socketio, ambientalConditions, loginStatus) {
+		loginStatus.check();
 
 		$scope.charts = {
 			temperature: {
